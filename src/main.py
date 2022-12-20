@@ -3,9 +3,11 @@ from naive import Naive
 from tree import Tree
 from forest import Forest
 from svms import SvmLinear, SvmPoly, SvmRbf, SvmSig
+from perceptron import Perceptron
 
 
 def main():
+
     naive: Naive = Naive(xcount2_train, ycount2_train, xcount2_test, ycount2_test)
     print("score naive : " + str(naive.score()))
 
@@ -26,6 +28,9 @@ def main():
 
     svm_sig: SvmSig = SvmSig(xcount2_train, ycount2_train, xcount2_test, ycount2_test)
     print("score svm_sig : " + str(svm_sig.score()))
+
+    perceptron: Perceptron = Perceptron(xcount2_train, ycount2_train, xcount2_test, ycount2_test)
+    print("score perceptron : " + str(perceptron.score()))
 
 
 if __name__ == "__main__":
