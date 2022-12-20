@@ -66,7 +66,6 @@ tfidf_vectorizer.fit_transform(word_str_phrases)
 # a partir d'ici je prepare X et y
 
 def context(word_list_phrase: str, cat_phrase: str, regex: str, fenetre: int):
-
     for i, word in enumerate(word_list_phrase):
         if re.match(regex, word):
             break
@@ -87,7 +86,7 @@ def context(word_list_phrase: str, cat_phrase: str, regex: str, fenetre: int):
 
 
 # extraction des mots et de leur categorie dans une fenetre
-def x_creator(word_list_phrases : str, cat_phrases: str, regex: str, fenetre: int, vectorizer):
+def x_creator(word_list_phrases: str, cat_phrases: str, regex: str, fenetre: int, vectorizer):
     context_phrases, context_cats = tuple(
         zip(*map(lambda words_cats: context(*words_cats, regex, fenetre), zip(word_list_phrases, cat_phrases)))
     )
