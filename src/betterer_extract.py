@@ -100,10 +100,10 @@ def x_creator(word_list_phrases: str, cat_phrases: str, regex: str, fenetre: int
     return np.hstack((x_words, x_cats))
 
 
-# si tu veux t'amuser avec différents ensembles de donnees, c'est ici
-xcount2 = x_creator(word_list_phrases, cat_phrases, "interest(|s)", 2, count_vectorizer)
-xtfidf2 = x_creator(word_list_phrases, cat_phrases, "interest(|s)", 5, tfidf_vectorizer)
-y = np.array(labels)
-
-xcount2_train, xcount2_test, ycount2_train, ycount2_test = train_test_split(xcount2, y, test_size=0.2, random_state=42)
-xtfidf2_train, xtfidf2_test, ytfidf2_train, ytfidf2_test = train_test_split(xtfidf2, y, test_size=0.2, random_state=42)
+# # si tu veux t'amuser avec différents ensembles de donnees, c'est ici
+# xcount2 = x_creator(word_list_phrases, cat_phrases, "interest(|s)", 2, count_vectorizer)
+# xtfidf2 = x_creator(word_list_phrases, cat_phrases, "interest(|s)", 5, tfidf_vectorizer)
+# y = np.array(labels)
+#
+# xcount2_train, xcount2_test, ycount2_train, ycount2_test = train_test_split(xcount2, y, test_size=0.2, random_state=42)
+# xtfidf2_train, xtfidf2_test, ytfidf2_train, ytfidf2_test = train_test_split(xtfidf2, y, test_size=0.2, random_state=42)

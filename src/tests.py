@@ -1,24 +1,23 @@
 from time import time
-from betterer_extract import *
 from perceptron import Perceptron
 from forest import Forest
 from tree import Tree
 from naive import Naive
 from svms import SvmLinear, SvmPoly, SvmRbf, SvmSig
+import numpy as np
 
 
-def test_naive():
+def test_naive(xcount2_train, ycount2_train, xcount2_test, ycount2_test):
     print("--- Tests Naive ---")
     start_time_i: float = time()
     naive: Naive = Naive(xcount2_train, ycount2_train, xcount2_test, ycount2_test)
     naive_score: float = naive.score()
     elapsed_time_i: float = time() - start_time_i
-    print("Score naive :", naive_score, "- temps :", f"{elapsed_time_i}s")
-    print("\n")
+    print("Score naive :", naive_score, "- temps :", f"{elapsed_time_i}s\n")
     return naive_score, "naive"
 
 
-def tests_tree():
+def tests_tree(xcount2_train, ycount2_train, xcount2_test, ycount2_test):
     print("--- Tests Tree ---")
     score_list = []
     start_time: float = time()
@@ -32,12 +31,11 @@ def tests_tree():
     elapsed_time: float = time() - start_time
     mean: float = float(np.mean(score_list))
     print("Moyenne :", mean, "- Ecart type :", np.std(score_list))
-    print("Temps total tree:", f"{elapsed_time}s")
-    print("\n")
+    print("Temps total tree:", f"{elapsed_time}s\n")
     return mean, "tree"
 
 
-def tests_forest():
+def tests_forest(xcount2_train, ycount2_train, xcount2_test, ycount2_test):
     print("--- Tests Forest ---")
     score_list = []
     start_time: float = time()
@@ -51,12 +49,11 @@ def tests_forest():
     elapsed_time: float = time() - start_time
     mean: float = float(np.mean(score_list))
     print("Moyenne :", mean, "- Ecart type :", np.std(score_list))
-    print("Temps total forest:", f"{elapsed_time}s")
-    print("\n")
+    print("Temps total forest:", f"{elapsed_time}s\n")
     return mean, "forest"
 
 
-def tests_svm():
+def tests_svm(xcount2_train, ycount2_train, xcount2_test, ycount2_test):
     print("--- Tests Svm ---")
     start_time_t: float = time()
     score_list = []
@@ -92,12 +89,11 @@ def tests_svm():
     elapsed_time_t: float = time() - start_time_t
 
     print("Svm max :", algo, "- score :", score_max)
-    print("Temps total Svms:", f"{elapsed_time_t}s")
-    print("\n")
+    print("Temps total svm:", f"{elapsed_time_t}s\n")
     return score_max, algo
 
 
-def tests_perceptron():
+def tests_perceptron(xcount2_train, ycount2_train, xcount2_test, ycount2_test):
     print("--- Tests Perceptron ---")
     score_list = []
     start_time: float = time()
@@ -111,8 +107,7 @@ def tests_perceptron():
     elapsed_time: float = time() - start_time
     mean: float = float(np.mean(score_list))
     print("Moyenne :", mean, "- Ecart type :", np.std(score_list))
-    print("Temps total perceptron:", f"{elapsed_time}s")
-    print("\n")
+    print("Temps total perceptron:", f"{elapsed_time}s\n")
     return mean, "perceptron"
 
 
