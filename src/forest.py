@@ -2,8 +2,8 @@ from sklearn.ensemble import RandomForestClassifier
 
 
 class Forest:
-    def __init__(self, x_train, y_train, x_test, y_test) -> None:
-        self.__clf: RandomForestClassifier = RandomForestClassifier()
+    def __init__(self, x_train, y_train, x_test, y_test, **kwargs) -> None:
+        self.__clf: RandomForestClassifier = RandomForestClassifier(**kwargs)
         self.__x_train = x_train
         self.__y_train = y_train
         self.__x_test = x_test

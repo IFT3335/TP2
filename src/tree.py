@@ -2,8 +2,8 @@ from sklearn.tree import DecisionTreeClassifier
 
 
 class Tree:
-    def __init__(self, x_train, y_train, x_test, y_test) -> None:
-        self.__clf: DecisionTreeClassifier = DecisionTreeClassifier()
+    def __init__(self, x_train, y_train, x_test, y_test, **kwargs) -> None:
+        self.__clf: DecisionTreeClassifier = DecisionTreeClassifier(**kwargs)
         self.__x_train = x_train
         self.__y_train = y_train
         self.__x_test = x_test

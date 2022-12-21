@@ -7,23 +7,23 @@ from svms import SvmLinear, SvmPoly, SvmRbf, SvmSig
 import numpy as np
 
 
-def test_naive(xcount2_train, ycount2_train, xcount2_test, ycount2_test):
+def test_naive(xcount2_train, ycount2_train, xcount2_test, ycount2_test, **kwargs):
     print("--- Tests Naive ---")
     start_time_i: float = time()
-    naive: Naive = Naive(xcount2_train, ycount2_train, xcount2_test, ycount2_test)
+    naive: Naive = Naive(xcount2_train, ycount2_train, xcount2_test, ycount2_test, **kwargs)
     naive_score: float = naive.score()
     elapsed_time_i: float = time() - start_time_i
     print("Score naive :", naive_score, "- temps :", f"{elapsed_time_i}s\n")
     return naive_score, "naive"
 
 
-def tests_tree(xcount2_train, ycount2_train, xcount2_test, ycount2_test):
+def tests_tree(xcount2_train, ycount2_train, xcount2_test, ycount2_test, **kwargs):
     print("--- Tests Tree ---")
     score_list = []
     start_time: float = time()
     for i in range(1, 6):
         start_time_i: float = time()
-        tree: Tree = Tree(xcount2_train, ycount2_train, xcount2_test, ycount2_test)
+        tree: Tree = Tree(xcount2_train, ycount2_train, xcount2_test, ycount2_test, **kwargs)
         tree_score: float = tree.score()
         elapsed_time_i: float = time() - start_time_i
         score_list.append(tree_score)
@@ -35,13 +35,13 @@ def tests_tree(xcount2_train, ycount2_train, xcount2_test, ycount2_test):
     return mean, "tree"
 
 
-def tests_forest(xcount2_train, ycount2_train, xcount2_test, ycount2_test):
+def tests_forest(xcount2_train, ycount2_train, xcount2_test, ycount2_test, **kwargs):
     print("--- Tests Forest ---")
     score_list = []
     start_time: float = time()
     for i in range(1, 6):
         start_time_i: float = time()
-        forest: Forest = Forest(xcount2_train, ycount2_train, xcount2_test, ycount2_test)
+        forest: Forest = Forest(xcount2_train, ycount2_train, xcount2_test, ycount2_test, **kwargs)
         forest_score: float = forest.score()
         elapsed_time_i: float = time() - start_time_i
         score_list.append(forest_score)
@@ -93,13 +93,13 @@ def tests_svm(xcount2_train, ycount2_train, xcount2_test, ycount2_test):
     return score_max, algo
 
 
-def tests_perceptron(xcount2_train, ycount2_train, xcount2_test, ycount2_test):
+def tests_perceptron(xcount2_train, ycount2_train, xcount2_test, ycount2_test, **kwargs):
     print("--- Tests Perceptron ---")
     score_list = []
     start_time: float = time()
     for i in range(1, 6):
         start_time_i: float = time()
-        perceptron: Perceptron = Perceptron(xcount2_train, ycount2_train, xcount2_test, ycount2_test)
+        perceptron: Perceptron = Perceptron(xcount2_train, ycount2_train, xcount2_test, ycount2_test, **kwargs)
         perceptron_score: float = perceptron.score()
         elapsed_time_i: float = time() - start_time_i
         score_list.append(perceptron_score)

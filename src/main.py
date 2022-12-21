@@ -15,12 +15,13 @@ def main():
     xcount2_train, xcount2_test, ycount2_train, ycount2_test = train_test_split(xcount2, y, test_size=0.2, random_state=42)
     #xtfidf2_train, xtfidf2_test, ytfidf2_train, ytfidf2_test = train_test_split(xtfidf2, y, test_size=0.2,random_state=42)
 
+
     score_list = (
         test_naive(xcount2_train, ycount2_train, xcount2_test, ycount2_test),
         tests_tree(xcount2_train, ycount2_train, xcount2_test, ycount2_test),
         tests_forest(xcount2_train, ycount2_train, xcount2_test, ycount2_test),
         tests_svm(xcount2_train, ycount2_train, xcount2_test, ycount2_test),
-        tests_perceptron(xcount2_train, ycount2_train, xcount2_test, ycount2_test)
+        tests_perceptron(xcount2_train, ycount2_train, xcount2_test, ycount2_test, learning_rate="adaptive", learning_rate_init=0.025, hidden_layer_sizes=(175,))
     )
     score, algo = max(score_list)
     max_list.append((score, algo, "1"))
@@ -41,7 +42,7 @@ def main():
         tests_tree(xcount2_train, ycount2_train, xcount2_test, ycount2_test),
         tests_forest(xcount2_train, ycount2_train, xcount2_test, ycount2_test),
         tests_svm(xcount2_train, ycount2_train, xcount2_test, ycount2_test),
-        tests_perceptron(xcount2_train, ycount2_train, xcount2_test, ycount2_test)
+        tests_perceptron(xcount2_train, ycount2_train, xcount2_test, ycount2_test, learning_rate="adaptive", learning_rate_init=0.025, hidden_layer_sizes=(175,))
     )
     score, algo = max(score_list)
     max_list.append((score, algo, "2"))
@@ -62,7 +63,7 @@ def main():
         tests_tree(xcount2_train, ycount2_train, xcount2_test, ycount2_test),
         tests_forest(xcount2_train, ycount2_train, xcount2_test, ycount2_test),
         tests_svm(xcount2_train, ycount2_train, xcount2_test, ycount2_test),
-        tests_perceptron(xcount2_train, ycount2_train, xcount2_test, ycount2_test)
+        tests_perceptron(xcount2_train, ycount2_train, xcount2_test, ycount2_test, learning_rate="adaptive", learning_rate_init=0.025, hidden_layer_sizes=(175,))
     )
     score, algo = max(score_list)
     max_list.append((score, algo, "5"))
