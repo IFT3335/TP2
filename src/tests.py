@@ -3,22 +3,22 @@ from perceptron import Perceptron
 from forest import Forest
 from tree import Tree
 from naive import Naive
-from svms import SvmLinear, SvmPoly, SvmRbf, SvmSig
+from svms import Svm
 import numpy as np
 
 
 def test_naive(xcount2_train, ycount2_train, xcount2_test, ycount2_test, **kwargs):
-    print("--- Tests Naive ---")
+    print(f"--- Tests Naive - paramètres : {kwargs} ---")
     start_time_i: float = time()
     naive: Naive = Naive(xcount2_train, ycount2_train, xcount2_test, ycount2_test, **kwargs)
     naive_score: float = naive.score()
     elapsed_time_i: float = time() - start_time_i
-    print("Score naive :", naive_score, "- temps :", f"{elapsed_time_i}s\n")
-    return naive_score, "naive"
+    print(f"Score naive: {naive_score:.3f} - temps : {elapsed_time_i:.3f}s\n")
+    return naive_score, "naive", kwargs
 
 
 def tests_tree(xcount2_train, ycount2_train, xcount2_test, ycount2_test, **kwargs):
-    print("--- Tests Tree ---")
+    print(f"--- Tests Tree - paramètres : {kwargs} ---")
     score_list = []
     start_time: float = time()
     for i in range(1, 6):
@@ -27,16 +27,16 @@ def tests_tree(xcount2_train, ycount2_train, xcount2_test, ycount2_test, **kwarg
         tree_score: float = tree.score()
         elapsed_time_i: float = time() - start_time_i
         score_list.append(tree_score)
-        print(f"Score tree {i}/5:", tree_score, "- temps :", f"{elapsed_time_i}s")
+        print(f"Score tree {i}/5: {tree_score:.3f} - temps : {elapsed_time_i:.3f}s")
     elapsed_time: float = time() - start_time
     mean: float = float(np.mean(score_list))
-    print("Moyenne :", mean, "- Ecart type :", np.std(score_list))
+    print(f"Moyenne : {mean:.3f} - Ecart type : {np.std(score_list):.3f}")
     print("Temps total tree:", f"{elapsed_time}s\n")
-    return mean, "tree"
+    return mean, "tree", kwargs
 
 
 def tests_forest(xcount2_train, ycount2_train, xcount2_test, ycount2_test, **kwargs):
-    print("--- Tests Forest ---")
+    print(f"--- Tests Forest - paramètres : {kwargs} ---")
     score_list = []
     start_time: float = time()
     for i in range(1, 6):
@@ -45,56 +45,26 @@ def tests_forest(xcount2_train, ycount2_train, xcount2_test, ycount2_test, **kwa
         forest_score: float = forest.score()
         elapsed_time_i: float = time() - start_time_i
         score_list.append(forest_score)
-        print(f"Score forest {i}/5:", forest_score, "- temps :", f"{elapsed_time_i}s")
+        print(f"Score forest {i}/5: {forest_score:.3f} - temps : {elapsed_time_i:.3f}s")
     elapsed_time: float = time() - start_time
     mean: float = float(np.mean(score_list))
-    print("Moyenne :", mean, "- Ecart type :", np.std(score_list))
+    print(f"Moyenne : {mean:.3f} - Ecart type : {np.std(score_list):.3f}")
     print("Temps total forest:", f"{elapsed_time}s\n")
-    return mean, "forest"
+    return mean, "forest", kwargs
 
 
-def tests_svm(xcount2_train, ycount2_train, xcount2_test, ycount2_test):
-    print("--- Tests Svm ---")
-    start_time_t: float = time()
-    score_list = []
-    start_time: float = time()
-    svm_linear: SvmLinear = SvmLinear(xcount2_train, ycount2_train, xcount2_test, ycount2_test)
-    svm_linear_score: float = svm_linear.score()
-    elapsed_time: float = time() - start_time
-    score_list.append((svm_linear_score, "svm_linear"))
-    print("Score svm_linear :", svm_linear_score, "- temps :", f"{elapsed_time}s")
-
-    start_time: float = time()
-    svm_poly: SvmPoly = SvmPoly(xcount2_train, ycount2_train, xcount2_test, ycount2_test)
-    svm_poly_score: float = svm_poly.score()
-    elapsed_time: float = time() - start_time
-    score_list.append((svm_poly_score, "svm_poly"))
-    print("Score svm_poly :", svm_poly_score, "- temps :", f"{elapsed_time}s")
-
-    start_time: float = time()
-    svm_rbf: SvmRbf = SvmRbf(xcount2_train, ycount2_train, xcount2_test, ycount2_test)
-    svm_rbf_score: float = svm_rbf.score()
-    elapsed_time: float = time() - start_time
-    score_list.append((svm_rbf_score, "svm_rbf"))
-    print("Score svm_rbf :", svm_rbf_score, "- temps :", f"{elapsed_time}s")
-
-    start_time: float = time()
-    svm_sig: SvmSig = SvmSig(xcount2_train, ycount2_train, xcount2_test, ycount2_test)
-    svm_sig_score: float = svm_sig.score()
-    elapsed_time: float = time() - start_time
-    score_list.append((svm_sig_score, "svm_sig"))
-    print("Score svm_sig :", svm_sig_score, "- temps :", f"{elapsed_time}s")
-    score_max, algo = max(score_list)
-
-    elapsed_time_t: float = time() - start_time_t
-
-    print("Svm max :", algo, "- score :", score_max)
-    print("Temps total svm:", f"{elapsed_time_t}s\n")
-    return score_max, algo
+def tests_svm(xcount2_train, ycount2_train, xcount2_test, ycount2_test, **kwargs):
+    print(f"--- Tests Svm - paramètres : {kwargs} ---")
+    start_time_i: float = time()
+    svm: Svm = Svm(xcount2_train, ycount2_train, xcount2_test, ycount2_test, **kwargs)
+    svm_score: float = svm.score()
+    elapsed_time_i: float = time() - start_time_i
+    print(f"Score svm: {svm_score:.3f} - temps : {elapsed_time_i:.3f}s\n")
+    return svm_score, "svm", kwargs
 
 
 def tests_perceptron(xcount2_train, ycount2_train, xcount2_test, ycount2_test, **kwargs):
-    print("--- Tests Perceptron ---")
+    print(f"--- Tests Perceptron - paramètres : {kwargs} ---")
     score_list = []
     start_time: float = time()
     for i in range(1, 6):
@@ -103,12 +73,12 @@ def tests_perceptron(xcount2_train, ycount2_train, xcount2_test, ycount2_test, *
         perceptron_score: float = perceptron.score()
         elapsed_time_i: float = time() - start_time_i
         score_list.append(perceptron_score)
-        print(f"Score perceptron {i}/5:", perceptron_score, "- temps :", f"{elapsed_time_i}s")
+        print(f"Score perceptron {i}/5: {perceptron_score:.3f} - temps : {elapsed_time_i:.3f}s")
     elapsed_time: float = time() - start_time
     mean: float = float(np.mean(score_list))
-    print("Moyenne :", mean, "- Ecart type :", np.std(score_list))
+    print(f"Moyenne : {mean:.3f} - Ecart type : {np.std(score_list):.3f}")
     print("Temps total perceptron:", f"{elapsed_time}s\n")
-    return mean, "perceptron"
+    return mean, "perceptron", kwargs
 
 
 
