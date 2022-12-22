@@ -1,0 +1,261 @@
+<body style="font-family:'FiraCode Nerd Font Mono',monospace;font-size:12pt;color:#ebdbb2;background-color:#282828;"><span style="color:#ebdbb2;background-color:#282828;">[01:02:32] </span><span style="color:#83a598;background-color:#282828;">loic@archlinux-loic-pcp </span><span style="color:#98971a;background-color:#282828;">/mnt/cloud/Nextcloud/Université/L3/UdeM/IFT3335_IA/TPS/TP2/src </span><span style="color:#ebdbb2;background-color:#282828;">&#160;&#160;</span><br>&gt; <span style="color:#8ec07c;background-color:#282828;">time</span><span style="color:#ebdbb2;background-color:#282828;"> </span><span style="color:#458588;background-color:#282828;">python</span><span style="color:#ebdbb2;background-color:#282828;"> </span><span style="font-decoration:underline;color:#689d6a;background-color:#282828;">main.py</span><span style="color:#ebdbb2;background-color:#282828;">
+</span><br>----- Tests avec jeu de paramètres 1 -----
+<br>
+<br>
+<br>----- Tests avec taille fenêtre = 1 -----
+<br>
+<br>--- Tests Naive - paramètres : {} ---
+<br>Score naive: 0.535 - temps : 0.212s
+<br>
+<br>--- Tests Tree - paramètres : {} ---
+<br>Score tree 1/5: 0.848 - temps : 0.172s
+<br>Score tree 2/5: 0.844 - temps : 0.168s
+<br>Score tree 3/5: 0.848 - temps : 0.169s
+<br>Score tree 4/5: 0.848 - temps : 0.165s
+<br>Score tree 5/5: 0.841 - temps : 0.166s
+<br>Moyenne des scores : 0.846 - Ecart type : 0.003
+<br>Temps moyen : 0.168s - Ecart Type : 0.002
+<br>Temps total tree: 0.840s
+<br>
+<br>--- Tests Forest - paramètres : {} ---
+<br>Score forest 1/5: 0.865 - temps : 3.681s
+<br>Score forest 2/5: 0.865 - temps : 3.699s
+<br>Score forest 3/5: 0.865 - temps : 3.806s
+<br>Score forest 4/5: 0.863 - temps : 3.623s
+<br>Score forest 5/5: 0.871 - temps : 3.618s
+<br>Moyenne des scores : 0.866 - Ecart type : 0.003
+<br>Temps moyen : 3.686s - Ecart Type : 0.068
+<br>Temps total forest: 18.428s
+<br>
+<br>--- Tests Svm - paramètres : {'kernel': 'linear', 'decision_function_shape': 'ovo'} ---
+<br>Score svm: 0.863 - temps : 26.056s
+<br>
+<br>--- Tests Perceptron - paramètres : {'learning_rate': 'adaptive', 'learning_rate_init': 0.025, 'hidden_layer_sizes': (175,)} ---
+<br>Score perceptron 1/5: 0.884 - temps : 181.558s
+<br>Score perceptron 2/5: 0.869 - temps : 279.399s
+<br>Score perceptron 3/5: 0.858 - temps : 135.445s
+<br>Score perceptron 4/5: 0.879 - temps : 328.916s
+<br>Score perceptron 5/5: 0.869 - temps : 154.621s
+<br>Moyenne des scores : 0.872 - Ecart type : 0.009
+<br>Temps moyen : 215.988s - Ecart Type : 75.116
+<br>Temps total perceptron: 1079.939s
+<br>
+<br>Meilleur score :0.872 avec perceptron et paramètres : {'learning_rate': 'adaptive', 'learning_rate_init': 0.025, 'hidden_layer_sizes': (175,)}
+<br>Temps total d'exécution fenêtre = 1 : 1125.562s
+<br>
+<br>
+<br>----- Tests avec taille fenêtre = 2 -----
+<br>--- Tests Naive - paramètres : {} ---
+<br>Score naive: 0.571 - temps : 0.174s
+<br>
+<br>--- Tests Tree - paramètres : {} ---
+<br>Score tree 1/5: 0.820 - temps : 0.202s
+<br>Score tree 2/5: 0.820 - temps : 0.202s
+<br>Score tree 3/5: 0.816 - temps : 0.206s
+<br>Score tree 4/5: 0.812 - temps : 0.199s
+<br>Score tree 5/5: 0.818 - temps : 0.202s
+<br>Moyenne des scores : 0.817 - Ecart type : 0.003
+<br>Temps moyen : 0.202s - Ecart Type : 0.002
+<br>Temps total tree: 1.012s
+<br>
+<br>--- Tests Forest - paramètres : {} ---
+<br>Score forest 1/5: 0.869 - temps : 2.987s
+<br>Score forest 2/5: 0.877 - temps : 2.965s
+<br>Score forest 3/5: 0.858 - temps : 2.951s
+<br>Score forest 4/5: 0.873 - temps : 2.963s
+<br>Score forest 5/5: 0.865 - temps : 2.851s
+<br>Moyenne des scores : 0.868 - Ecart type : 0.007
+<br>Temps moyen : 2.943s - Ecart Type : 0.048
+<br>Temps total forest: 14.718s
+<br>
+<br>--- Tests Svm - paramètres : {'kernel': 'linear', 'decision_function_shape': 'ovo'} ---
+<br>Score svm: 0.888 - temps : 30.297s
+<br>
+<br>--- Tests Perceptron - paramètres : {'learning_rate': 'adaptive', 'learning_rate_init': 0.025, 'hidden_layer_sizes': (175,)} ---
+<br>Score perceptron 1/5: 0.863 - temps : 144.800s
+<br>Score perceptron 2/5: 0.888 - temps : 190.462s
+<br>Score perceptron 3/5: 0.865 - temps : 154.186s
+<br>Score perceptron 4/5: 0.858 - temps : 180.775s
+<br>Score perceptron 5/5: 0.882 - temps : 221.552s
+<br>Moyenne des scores : 0.871 - Ecart type : 0.012
+<br>Temps moyen : 178.355s - Ecart Type : 27.307
+<br>Temps total perceptron: 891.774s
+<br>
+<br>Meilleur score :0.888 avec svm et paramètres : {'kernel': 'linear', 'decision_function_shape': 'ovo'}
+<br>Temps total d'exécution fenêtre = 2 : 938.064s
+<br>
+<br>
+<br>----- Tests avec taille fenêtre = 5 -----
+<br>--- Tests Naive - paramètres : {} ---
+<br>Score naive: 0.596 - temps : 0.211s
+<br>
+<br>--- Tests Tree - paramètres : {} ---
+<br>Score tree 1/5: 0.761 - temps : 0.280s
+<br>Score tree 2/5: 0.759 - temps : 0.282s
+<br>Score tree 3/5: 0.757 - temps : 0.278s
+<br>Score tree 4/5: 0.759 - temps : 0.280s
+<br>Score tree 5/5: 0.767 - temps : 0.280s
+<br>Moyenne des scores : 0.761 - Ecart type : 0.004
+<br>Temps moyen : 0.280s - Ecart Type : 0.001
+<br>Temps total tree: 1.401s
+<br>
+<br>--- Tests Forest - paramètres : {} ---
+<br>Score forest 1/5: 0.793 - temps : 2.515s
+<br>Score forest 2/5: 0.810 - temps : 2.392s
+<br>Score forest 3/5: 0.801 - temps : 2.428s
+<br>Score forest 4/5: 0.810 - temps : 2.445s
+<br>Score forest 5/5: 0.803 - temps : 2.518s
+<br>Moyenne des scores : 0.803 - Ecart type : 0.006
+<br>Temps moyen : 2.460s - Ecart Type : 0.049
+<br>Temps total forest: 12.298s
+<br>
+<br>--- Tests Svm - paramètres : {'kernel': 'linear', 'decision_function_shape': 'ovo'} ---
+<br>Score svm: 0.863 - temps : 44.071s
+<br>
+<br>--- Tests Perceptron - paramètres : {'learning_rate': 'adaptive', 'learning_rate_init': 0.025, 'hidden_layer_sizes': (175,)} ---
+<br>Score perceptron 1/5: 0.852 - temps : 277.066s
+<br>Score perceptron 2/5: 0.854 - temps : 240.527s
+<br>Score perceptron 3/5: 0.852 - temps : 184.525s
+<br>Score perceptron 4/5: 0.867 - temps : 245.780s
+<br>Score perceptron 5/5: 0.852 - temps : 219.744s
+<br>Moyenne des scores : 0.855 - Ecart type : 0.006
+<br>Temps moyen : 233.528s - Ecart Type : 30.613
+<br>Temps total perceptron: 1167.643s
+<br>
+<br>Meilleur score :0.863 avec svm et paramètres : {'kernel': 'linear', 'decision_function_shape': 'ovo'}
+<br>Temps total d'exécution fenêtre = 5 : 1225.723s
+<br>
+<br>
+<br>----- Bilan test des tailles de fenêtres -----
+<br>Meilleur score :0.888 avec svm et paramètres {'kernel': 'linear', 'decision_function_shape': 'ovo'} pour la fenêtre de taille 2
+<br>Temps total d'exécution : 3289.349s
+<br>----- Tests avec différents jeux de paramètres -----
+<br>
+<br>
+<br>----- Tests avec taille fenêtre = 2 -----
+<br>--- Tests Naive - paramètres : {} ---
+<br>Score naive: 0.571 - temps : 0.176s
+<br>
+<br>--- Tests Tree - paramètres : {'max_depth': 40} ---
+<br>Score tree 1/5: 0.831 - temps : 0.203s
+<br>Score tree 2/5: 0.810 - temps : 0.202s
+<br>Score tree 3/5: 0.816 - temps : 0.203s
+<br>Score tree 4/5: 0.818 - temps : 0.206s
+<br>Score tree 5/5: 0.825 - temps : 0.202s
+<br>Moyenne des scores : 0.820 - Ecart type : 0.007
+<br>Temps moyen : 0.203s - Ecart Type : 0.001
+<br>Temps total tree: 1.016s
+<br>
+<br>--- Tests Tree - paramètres : {'max_depth': 20} ---
+<br>Score tree 1/5: 0.812 - temps : 0.195s
+<br>Score tree 2/5: 0.808 - temps : 0.195s
+<br>Score tree 3/5: 0.810 - temps : 0.195s
+<br>Score tree 4/5: 0.808 - temps : 0.198s
+<br>Score tree 5/5: 0.812 - temps : 0.193s
+<br>Moyenne des scores : 0.810 - Ecart type : 0.002
+<br>Temps moyen : 0.195s - Ecart Type : 0.002
+<br>Temps total tree: 0.976s
+<br>
+<br>--- Tests Tree - paramètres : {'max_depth': 5} ---
+<br>Score tree 1/5: 0.681 - temps : 0.163s
+<br>Score tree 2/5: 0.681 - temps : 0.165s
+<br>Score tree 3/5: 0.681 - temps : 0.165s
+<br>Score tree 4/5: 0.681 - temps : 0.165s
+<br>Score tree 5/5: 0.681 - temps : 0.170s
+<br>Moyenne des scores : 0.681 - Ecart type : 0.000
+<br>Temps moyen : 0.166s - Ecart Type : 0.002
+<br>Temps total tree: 0.828s
+<br>
+<br>--- Tests Forest - paramètres : {'n_estimators': 10} ---
+<br>Score forest 1/5: 0.848 - temps : 0.304s
+<br>Score forest 2/5: 0.844 - temps : 0.301s
+<br>Score forest 3/5: 0.850 - temps : 0.354s
+<br>Score forest 4/5: 0.848 - temps : 0.325s
+<br>Score forest 5/5: 0.829 - temps : 0.307s
+<br>Moyenne des scores : 0.844 - Ecart type : 0.008
+<br>Temps moyen : 0.318s - Ecart Type : 0.020
+<br>Temps total forest: 1.591s
+<br>
+<br>--- Tests Forest - paramètres : {'n_estimators': 100} ---
+<br>Score forest 1/5: 0.869 - temps : 2.949s
+<br>Score forest 2/5: 0.860 - temps : 2.946s
+<br>Score forest 3/5: 0.869 - temps : 2.938s
+<br>Score forest 4/5: 0.858 - temps : 2.937s
+<br>Score forest 5/5: 0.854 - temps : 2.956s
+<br>Moyenne des scores : 0.862 - Ecart type : 0.006
+<br>Temps moyen : 2.945s - Ecart Type : 0.007
+<br>Temps total forest: 14.725s
+<br>
+<br>--- Tests Forest - paramètres : {'n_estimators': 1000} ---
+<br>Score forest 1/5: 0.869 - temps : 28.559s
+<br>Score forest 2/5: 0.873 - temps : 28.539s
+<br>Score forest 3/5: 0.873 - temps : 28.645s
+<br>Score forest 4/5: 0.875 - temps : 28.424s
+<br>Score forest 5/5: 0.867 - temps : 28.893s
+<br>Moyenne des scores : 0.871 - Ecart type : 0.003
+<br>Temps moyen : 28.612s - Ecart Type : 0.157
+<br>Temps total forest: 143.060s
+<br>
+<br>--- Tests Svm - paramètres : {'kernel': 'linear', 'decision_function_shape': 'ovo'} ---
+<br>Score svm: 0.888 - temps : 30.217s
+<br>
+<br>--- Tests Svm - paramètres : {'kernel': 'poly', 'decision_function_shape': 'ovo'} ---
+<br>Score svm: 0.537 - temps : 37.089s
+<br>
+<br>--- Tests Svm - paramètres : {'kernel': 'rbf', 'decision_function_shape': 'ovo'} ---
+<br>Score svm: 0.556 - temps : 40.729s
+<br>
+<br>--- Tests Svm - paramètres : {'kernel': 'sigmoid', 'decision_function_shape': 'ovo'} ---
+<br>Score svm: 0.421 - temps : 35.789s
+<br>
+<br>--- Tests Perceptron - paramètres : {'learning_rate': 'adaptive', 'learning_rate_init': 0.1, 'hidden_layer_sizes': (125,)} ---
+<br>Score perceptron 1/5: 0.860 - temps : 144.579s
+<br>Score perceptron 2/5: 0.869 - temps : 75.616s
+<br>Score perceptron 3/5: 0.846 - temps : 172.296s
+<br>Score perceptron 4/5: 0.869 - temps : 141.137s
+<br>Score perceptron 5/5: 0.744 - temps : 321.624s
+<br>Moyenne des scores : 0.838 - Ecart type : 0.047
+<br>Temps moyen : 171.050s - Ecart Type : 81.703
+<br>Temps total perceptron: 855.252s
+<br>
+<br>--- Tests Perceptron - paramètres : {'learning_rate': 'adaptive', 'learning_rate_init': 0.025, 'hidden_layer_sizes': (125,)} ---
+<br>Score perceptron 1/5: 0.888 - temps : 113.276s
+<br>Score perceptron 2/5: 0.871 - temps : 127.989s
+<br>Score perceptron 3/5: 0.882 - temps : 137.082s
+<br>Score perceptron 4/5: 0.888 - temps : 77.982s
+<br>Score perceptron 5/5: 0.865 - temps : 153.324s
+<br>Moyenne des scores : 0.879 - Ecart type : 0.009
+<br>Temps moyen : 121.931s - Ecart Type : 25.527
+<br>Temps total perceptron: 609.653s
+<br>
+<br>--- Tests Perceptron - paramètres : {'learning_rate': 'adaptive', 'learning_rate_init': 0.025, 'hidden_layer_sizes': (175,)} ---
+<br>Score perceptron 1/5: 0.899 - temps : 215.931s
+<br>Score perceptron 2/5: 0.865 - temps : 208.876s
+<br>Score perceptron 3/5: 0.873 - temps : 172.649s
+<br>Score perceptron 4/5: 0.858 - temps : 191.391s
+<br>Score perceptron 5/5: 0.871 - temps : 179.903s
+<br>Moyenne des scores : 0.873 - Ecart type : 0.014
+<br>Temps moyen : 193.750s - Ecart Type : 16.513
+<br>Temps total perceptron: 968.751s
+<br>
+<br>--- Tests Perceptron - paramètres : {'learning_rate': 'adaptive', 'learning_rate_init': 0.025, 'hidden_layer_sizes': (225,)} ---
+<br>Score perceptron 1/5: 0.869 - temps : 226.231s
+<br>Score perceptron 2/5: 0.875 - temps : 270.807s
+<br>Score perceptron 3/5: 0.856 - temps : 262.661s
+<br>Score perceptron 4/5: 0.882 - temps : 199.377s
+<br>Score perceptron 5/5: 0.865 - temps : 177.853s
+<br>Moyenne des scores : 0.869 - Ecart type : 0.009
+<br>Temps moyen : 227.386s - Ecart Type : 35.691
+<br>Temps total perceptron: 1136.929s
+<br>
+<br>Meilleur score :0.888 avec svm et paramètres {'kernel': 'linear', 'decision_function_shape': 'ovo'}
+<br>Temps total d'exécution fenêtre = 2 : 3876.876s
+<br>Temps total d'exécution du programme: 7166.225s
+<br>
+<br>________________________________________________________
+<br>Executed in &#160;119.45 mins &#160;&#160;&#160;fish &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;external
+<br> &#160;&#160;usr time &#160;119.14 mins &#160;426.00 micros &#160;119.14 mins
+<br> &#160;&#160;sys time &#160;&#160;&#160;0.03 mins &#160;155.00 micros &#160;&#160;&#160;0.03 mins
+<br>
+<br>[03:02:07] <span style="color:#83a598;background-color:#282828;">loic@archlinux-loic-pcp </span><span style="color:#98971a;background-color:#282828;">/mnt/cloud/Nextcloud/Université/L3/UdeM/IFT3335_IA/TPS/TP2/src </span><span style="color:#ebdbb2;background-color:#282828;">&#160;&#160;</span><br>&gt; <br>
+<br></body>
