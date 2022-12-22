@@ -5,7 +5,7 @@ import numpy as np
 from forest import Forest
 from naive import Naive
 from perceptron import Perceptron
-from svms import Svm
+from svm import Svm
 from tree import Tree
 
 
