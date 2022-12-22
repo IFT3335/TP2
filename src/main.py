@@ -1,6 +1,9 @@
 from time import time
-from tests import test_naive, tests_tree, tests_forest, tests_svm, tests_perceptron
+
+from sklearn.model_selection import train_test_split
+
 from betterer_extract import *
+from tests import test_naive, tests_tree, tests_forest, tests_svm, tests_perceptron
 
 
 def main():
@@ -11,13 +14,12 @@ def main():
     print("----- Tests avec taille fenêtre = 1 -----\n")
     total_time_start: float = time()
     xcount2 = x_creator(word_list_phrases, cat_phrases, "interest(|s)", 1, count_vectorizer)
-    #xtfidf2 = x_creator(word_list_phrases, cat_phrases, "interest(|s)", 5, tfidf_vectorizer)
+    # xtfidf2 = x_creator(word_list_phrases, cat_phrases, "interest(|s)", 5, tfidf_vectorizer)
 
     xcount2_train, xcount2_test, ycount2_train, ycount2_test = train_test_split(xcount2, y, test_size=0.2,
                                                                                 random_state=42)
-    #xtfidf2_train, xtfidf2_test, ytfidf2_train, ytfidf2_test = train_test_split(xtfidf2, y, test_size=0.2,
+    # xtfidf2_train, xtfidf2_test, ytfidf2_train, ytfidf2_test = train_test_split(xtfidf2, y, test_size=0.2,
     # random_state=42)
-
 
     score_list = (
         test_naive(xcount2_train, ycount2_train, xcount2_test, ycount2_test),
@@ -37,11 +39,11 @@ def main():
     print("\n\n----- Tests avec taille fenêtre = 2 -----")
     total_time_start: float = time()
     xcount2 = x_creator(word_list_phrases, cat_phrases, "interest(|s)", 2, count_vectorizer)
-    #xtfidf2 = x_creator(word_list_phrases, cat_phrases, "interest(|s)", 5, tfidf_vectorizer)
+    # xtfidf2 = x_creator(word_list_phrases, cat_phrases, "interest(|s)", 5, tfidf_vectorizer)
 
     xcount2_train, xcount2_test, ycount2_train, ycount2_test = train_test_split(xcount2, y, test_size=0.2,
                                                                                 random_state=42)
-    #xtfidf2_train, xtfidf2_test, ytfidf2_train, ytfidf2_test = train_test_split(xtfidf2, y, test_size=0.2,
+    # xtfidf2_train, xtfidf2_test, ytfidf2_train, ytfidf2_test = train_test_split(xtfidf2, y, test_size=0.2,
     # random_state=42)
 
     score_list = (
@@ -62,11 +64,11 @@ def main():
     print("\n\n----- Tests avec taille fenêtre = 5 -----")
     total_time_start: float = time()
     xcount2 = x_creator(word_list_phrases, cat_phrases, "interest(|s)", 5, count_vectorizer)
-    #xtfidf2 = x_creator(word_list_phrases, cat_phrases, "interest(|s)", 5, tfidf_vectorizer)
+    # xtfidf2 = x_creator(word_list_phrases, cat_phrases, "interest(|s)", 5, tfidf_vectorizer)
 
     xcount2_train, xcount2_test, ycount2_train, ycount2_test = train_test_split(xcount2, y, test_size=0.2,
                                                                                 random_state=42)
-    #xtfidf2_train, xtfidf2_test, ytfidf2_train, ytfidf2_test = train_test_split(xtfidf2, y, test_size=0.2,
+    # xtfidf2_train, xtfidf2_test, ytfidf2_train, ytfidf2_test = train_test_split(xtfidf2, y, test_size=0.2,
     # random_state=42)
 
     score_list = (
@@ -122,12 +124,17 @@ def main():
         tests_perceptron(xcount2_train, ycount2_train, xcount2_test, ycount2_test, learning_rate="adaptive",
                          learning_rate_init=0.025, hidden_layer_sizes=(125,)),
         tests_perceptron(xcount2_train, ycount2_train, xcount2_test, ycount2_test, learning_rate="adaptive",
-                         learning_rate_init=0.025, hidden_layer_sizes=(175,))
+                         learning_rate_init=0.025, hidden_layer_sizes=(175,)),
+        tests_perceptron(xcount2_train, ycount2_train, xcount2_test, ycount2_test, learning_rate="adaptive",
+                         learning_rate_init=0.025, hidden_layer_sizes=(225,))
     )
     score, algo, kwargs = max(score_list)
     print(f"Meilleur score :{score:.3f} avec {algo} et paramètres {kwargs}")
     total_time_elapsed: float = time() - total_time_start
     print(f"Temps total d'exécution fenêtre = 2 : {total_time_elapsed:.3f}s")
+
+    total_time_elapsed: float = time() - total_time_all_windows_start
+    print(f"Temps total d'exécution du programme: {total_time_elapsed:.3f}s")
 
 
 if __name__ == "__main__":
