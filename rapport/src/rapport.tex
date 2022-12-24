@@ -1,6 +1,5 @@
 \documentclass[11pt]{rapport-tp-ia}
 % Pour les documents écrits en général, entre 10pt et 12pt
-% 11pt OBLIGATOIRE POUR LE RAPPORT de l'UE Devenir Étudiant.e
 
 % Bonne lecture des lettres accentuées :
 \usepackage[utf8]{inputenc}
@@ -21,11 +20,49 @@
 \usepackage{pdfpages}
 \usepackage{listings}
 \usepackage{float}
+\usepackage{pdfpages}
+\usepackage{multirow}
+
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{backcolourLight}{RGB}{251, 241, 199}
+\definecolor{frontcolourLight}{RGB}{60, 56, 54}
+\definecolor{backcolourDark}{RGB}{40,40,40}
+\definecolor{frontcolourDark}{RGB}{251, 241, 199}
+
+\lstdefinestyle{listingstyleBasic}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=true,         
+    breaklines=true,                 
+    captionpos=t,                    
+    keepspaces=true,                 
+    %numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    extendedchars=true,
+    literate={à}{{\`a}}1 {ê}{{\^e}}1 {é}{{\'e}}1 {è}{{\`e}}1,
+}
+
+
+\lstset{style=listingstyleBasic}
+
 %%%%%%%  FIN DE L'EN-TÊTE - DÉBUT DU CONTENU %%%%%%
 \begin{document}
 
 
-\title{Rapport TP 1 - IFT3335-A-A22}
+  
+\title{Rapport TP 2 - IFT3335-A-A22}
 
 \author{
 	\\Loïc Daudé Mondet
@@ -39,16 +76,358 @@
 
 \maketitle
 
+\newpage
+\tableofcontents
+\newpage
+
+\chapter{Introduction}
+Le but de ce TP est de déterminer le sens du mot \textit{interest} dans sont contexte.
+Dans notre corpus ~2300 phrases, six sens ont été identifiés.
+Les classificateurs recevront en entrée un sac des mots entourant immédiatement \textit{interest} dans une fenêtre donnée et la catégorie grammaticale des mots dans leur ordre d'apparition.
+L'apprentissage automatique sera accompli par la bibliothèque scikit-learn.
+Cinq types de classificateur seront étudiés : un classificateur bayésien naïf multinominal, un arbre de décision, une forêt aléatoire, une SVM et un perceptron multicouche.
+
+\vspace{3em}
 \chapter{Prétraitement des données}
+Nous avons pré-traité les données en deux temps.
+D'abord, nous avons nettoyé le corpus initial et nous avons séparé les mots, les catégories et l'étiquette de chacune des phrases dans des listes différentes.
+Ensuite, nous avons converti ces données vers une représentation numérique adéquate pour les méthodes d'apprentissage automatique.
 
+\section{Nettoyage et séparation}
+Les données fournies contenaient énormément d'informations que nous avons décidé d'ignorer par contraintes de temps et de complexité.
+Notamment, les groupes du nom des phrases étaient délimités par «[» et «]».
+Ces annotations ont toutes été retirées à cette étape.
+De plus, certaines phrases commençaient par plusieurs «=».
+Ne sachant pas leur signification, nous avons simplement décidé de les ignorer aussi.
+Nous n'avons pas appliqué de techniques plus avancées comme la lemmatisation ou l'utilisation de «stoplist».
+\begin{lstlisting}[caption=Échantillion du corpus avant le nettoyage]
+[ yields/NNS ] on/IN [ money-market/JJ mutual/JJ funds/NNS ] continued/VBD [...]
+$$
+[ longer/JJR maturities/NNS ] are/VBP thought/VBN to/TO indicate/VB [...]
+$$
+nevertheless/RB ,/, said/VBD [ brenda/NP malizia/NP negus/NP ] ,/, [...]
+$$
+[ j.p./NP bolduc/NP ] ,/, [ vice/NN chairman/NN ] of/IN [ w.r./NP grace/NP ] [...]
+$$
+====================================== [ finmeccanica/NP ] is/VBZ [...]
+$$
+\end{lstlisting}
 
+\begin{lstlisting}[caption=Échantillion du corpus après le nettoyage]
+yields/NNS on/IN money-market/JJ mutual/JJ funds/NNS continued/VBD to/TO [...]
+$$
+longer/JJR maturities/NNS are/VBP thought/VBN to/TO indicate/VB declining/VBG [...]
+$$
+nevertheless/RB ,/, said/VBD brenda/NP malizia/NP negus/NP ,/, editor/NN [...]
+$$
+j.p./NP bolduc/NP ,/, vice/NN chairman/NN of/IN w.r./NP grace/NP &/CC co./NP [...]
+$$
+\end{lstlisting}
+
+Le nettoyage complété, nous avons découpé le corpus en ses différentes phrases et nous avons scindé chacune des phrases en une liste de ces binômes «mot/catégorie».
+À partir de cette liste de binômes, nous avons produit les trois listes ci-dessous.
+
+\begin{lstlisting}[caption=Les trois listes]
+word_list_phrases = [
+    ["yields", "on", "money-market", "mutual", "funds", "continued",  ...],
+    ...
+]
+cat_phrases = [
+    ["NNS", "IN", "JJ", "JJ", "NNS", "VBD",  ...],
+    ...
+]
+labels = [6, ...]
+\end{lstlisting}
+
+\section{Représentation numérique}
+Maintenant, que les mots, les catégories et les labels sont séparés, nous pouvons facilement les convertir en une représentation numérique.
+La représentation numérique du sac de mots est donnée par le \texttt{CountVectorizer} de scikit-learn.
+Les vecteurs générés par \texttt{CountVectorizer} représentent des sacs de mots. L'ordre des mots n'est pas conservé, seul leur présence l'est.
+La représentation numérique des catégories est donnée par un dictionnaire les contenant toutes et leur assignant à chacune un nombre.
+Par exemple, \texttt{cat\_ids = \{'NNS': 1, 'IN': 2, ...\}}.
+Les labels sont déjà numériques.
+
+\vspace{3em}
 \chapter{Expériences}
+Il y a deux types de facteurs que nous voulions caractériser dans nos expériences.
+Tout d'abord, nous voulions observer l'effet de la taille de la fenêtre de contexte sur la performance des classificateurs.
+Pour ce faire, nous avons testé chacun des classificateurs avec une fenêtre de 1, 2 et 5 mots de chaque côté de \textit{interest}.
+Ensuite, nous voulions observer l'impact de différents paramètres de chaque classificateur sur leur performance respective pour une fenêtre de 2 mots.
+Ces paramètres sont :
 
+\begin{itemize}
+	\item pour l'arbre -- la profondeur maximale (5, 20, 40);
+	\item pour la forêt aléatoire -- le nombre d'arbres dans la forêt (10, 100, 1000);
+	\item pour la SVM -- le noyau utilisé (linéaire, polynomiale, rbf, sigmoid);
+	\item pour le perceptron -- le nombre de couches cachées (); % TODO les paramètres
+\end{itemize}
 
+\vspace{3em}
 \chapter{Résultats}
+\section{Fenêtre de contexte variable}
+Les résultats suivants sont ceux des tests avec des largeurs de fenêtre variables.
+Le temps présenté est le temps combiné de l'entraînement et de l'évaluation de la performance du classificateur.
+Puisque l'arbre de décision, la forêt aléatoire et le perceptron sont sensibles au hasard dans leur apprentissage, les résultats présentés sont des moyenne$\pm$écart-type de cinq cycles apprentissage-évaluation.
+Voici les paramètres des différents classificateurs :
+\begin{itemize}
+	\item Bayes naïf -- par défaut;
+	\item Arbre de décision -- par défaut ;
+	\item Forêt aléatoire -- par défaut ;
+	\item SVM -- \texttt{kernel=linear}, \texttt{decision\_function\_shape=ovo};
+	\item \small Perceptron -- \texttt{learning\_rate=adaptive}, \texttt{learning\_rate\_init=0.025}, \texttt{hidden\_layer\_sizes=(175,)}
+\end{itemize}
+
+\begin{table}[ht]
+	\centering
+	\caption{\footnotesize Score et temps des classificateurs pour différentes largeurs de fenêtre \hyperref[fig:window1]{1}, \hyperref[fig:window2]{2}, \hyperref[fig:window5]{5}}
+	\resizebox{\columnwidth}{!}{%
+		\begin{tabular}{|c|c|c||c|c||c|c|}
+			\hline
+			\multirow{2}* {  Classificateurs} & \multicolumn{2}{|c||}{ fenêtre = 1} & \multicolumn{2}{c||}{ fenêtre = 2} & \multicolumn{2}{c|}{ fenêtre = 5} \\
+			\cline{2-7}
+			                   & Score           & Temps (s)       & Score           & Temps (s)       & Score           & Temps (s)       \\
+			\hline\hline
+			Bayes naïf        & 0.535           & 0.212           & 0.571           & 0.174           & 0.596           & 0.211           \\
+			Arbre de décision & 0.846$\pm$0.003 & 0.168$\pm$0.002 & 0.817$\pm$0.003 & 0.202$\pm$0.002 & 0.761$\pm$0.004 & 0.280$\pm$0.001 \\
+			Forêt aléatoire  & 0.866$\pm$0.003 & 3.69$\pm$0.07   & 0.868$\pm$0.007 & 2.94$\pm$0.05   & 0.803$\pm$0.006 & 2.46$\pm$0.05   \\
+			SVM                & 0.863           & 26.056          & 0.888           & 30.297          & 0.863           & 44.071          \\
+			Perceptron         & 0.872$\pm$0.009 & 216$\pm$75      & 0.871$\pm$0.012 & 178$\pm$27      & 0.855$\pm$0.006 & 234$\pm$30      \\
+			\hline
+		\end{tabular}}
+	
+	\label{tab:fenêtre}
+\end{table}
 
 
+\section{Paramètres des classificateurs variables}
+Les résultats suivants sont ceux des tests pour lesquels nous avons varié les paramètres des classificateurs pour une largeur de fenêtre constante à 2.
+Puisque l'arbre de décision, la forêt aléatoire et le perceptron sont sensibles au hasard dans leur apprentissage, les résultats présentés sont des moyenne$\pm$écart-type de cinq cycles apprentissage-évaluation.
+
+\begin{table}[bht!]
+	\centering
+	\caption{ \hyperref[fig:paramsTree]{\footnotesize Score et temps pour l'arbre de décision avec \texttt{max\_depth} variable}}
+	\begin{tabular}{|c|c|c|}
+		\hline
+		\texttt{max\_depth} & Score           & Temps (s)       \\
+		\hline\hline
+		5                   & 0.681$\pm$0.000 & 0.166$\pm$0.002 \\
+		20                  & 0.810$\pm$0.002 & 0.195$\pm$0.002 \\
+		40 (défaut)        & 0.820$\pm$0.007 & 0.203$\pm$0.002 \\
+		\hline
+	\end{tabular}
+	
+	\label{tab:arbre}
+\end{table}
+
+\begin{table}[bht!]
+	\centering
+	\caption{\hyperref[fig:paramsForest]{\footnotesize Score et temps pour la forêt aléatoire avec \texttt{n\_estimators} variable}}
+	\begin{tabular}{|c|c|c|}
+		\hline
+		\texttt{n\_estimators} & Score           & Temps (s)       \\
+		\hline\hline
+		10                     & 0.844$\pm$0.008 & 0.32$\pm$0.02   \\
+		100 (défaut)          & 0.862$\pm$0.006 & 2.945$\pm$0.007 \\
+		1000                   & 0.871$\pm$0.003 & 28.61$\pm$0.16  \\
+		\hline
+	\end{tabular}
+	
+	\label{tab:foret}
+\end{table}
+
+\begin{table}[bht!]
+	\centering
+	\caption{\hyperref[fig:paramsSvm]{\footnotesize Score et temps pour la SVM avec \texttt{kernel} variable et \texttt{decision\_function\_shape=ovo}}}
+	\begin{tabular}{|c|c|c|}
+		\hline
+		\texttt{kernel}  & Score & Temps (s) \\
+		\hline\hline
+		\texttt{linear}  & 0.888 & 30.217    \\
+		\texttt{poly}    & 0.537 & 37.089    \\
+		\texttt{rbf}     & 0.556 & 40.729    \\
+		\texttt{sigmoid} & 0.421 & 35.789    \\
+		\hline
+	\end{tabular}
+	
+	\label{tab:svm}
+\end{table}
+
+\begin{table}[bht!]
+	\centering
+	\caption{\hyperref[fig:paramsPerceptron]{\footnotesize Score et temps pour le perceptron avec \texttt{hidden\_layer\_sizes} variable et \texttt{learning\_rate=adaptive}, \texttt{learning\_rate\_init=0.025}}}
+	\begin{tabular}{|c|c|c|}
+		\hline
+		\texttt{hidden\_layer\_sizes} & Score           & Temps (s)  \\
+		\hline\hline
+		\texttt{(125,)}               & 0.879$\pm$0.009 & 121$\pm$26 \\
+		\texttt{(175,)}               & 0.873$\pm$0.014 & 193$\pm$16 \\
+		\texttt{(225,)}               & 0.869$\pm$0.009 & 227$\pm$36 \\
+		\hline
+	\end{tabular}
+	
+	\label{tab:perceptron}
+\end{table}
+
+\vspace{3em}
+\newpage  % force la meme page
 \chapter{Comparaison des différentes méthodes et analyse}
 
+\section{Analyse de l'impact de la largeur de la fenêtre et comparaison des classificateurs}
+Les classificateurs présentés dans le tableau \ref{tab:fenêtre} ont leurs paramètres optimaux.
+Leur performance est donc la meilleure possible dans ces tests et seule la fenêtre de contexte impacte leur score.
+Nous observons que dans presque tous les cas, une fenêtre de contexte plus large mène à une diminution marquée des scores sauf dans le cas du classificateur Bayes naïf.
+Dans presque tous les cas, il pire de regarder 5 mots de chaque côté que de n'en regarder qu'un seul.
+On remarque que l'arbre de décision seul semble préférer une fenêtre de 1.
+Notre hypothèse, pour expliquer ce comportement repose sur l'utilisation d'un sac de mots.
+Avec des fenêtres plus larges, il est possible que les sacs de mots se ressemblent davantage entre eux, rendant la tâche de trouver des différences utiles pour les discriminer plus difficile pour les classificateurs.
 
+
+Ici, nous déterminons que le classificateur SVM est sur nos données dans la désambiguïsation de sens suivi de près par le perceptron.
+Notons cependant que le perceptron demande beaucoup plus de ressources calculatoires à entraîner.
+
+\section{Analyse de l'arbre de décision}
+Par défaut, sur notre corpus de données, l'arbre calculé avait une profondeur de 40.
+Nous avons voulu observer ce qu'il se passerait si nous limitions sa profondeur maximum à des valeurs inférieures.
+Un balayage quasi-logarithmique nous montre que le bénéfice d'avoir un arbre profond diminue plutôt rapidement puisque la différence de score entre 40 et 20 est bien moins grande qu'entre 20 et 5.
+Probablement qu'au-delà de 40 niveaux, nous aurions observé du surentraînement.
+
+\section{Analyse de la forêt aléatoire}
+Pour la forêt aléatoire, nous avons appliqué la même méthodologie que pour l'arbre de décision, mais pour le nombre d'arbres qu'elle contient seulement.
+Notre hypothèse était qu'au-delà d'un certain nombre, les gains seraient faible par rapport au temps requis pour générer la forêt.
+Nos tests ne nous contredisent pas.
+Nous remarquons que le temps d'entraînement augmente linéairement avec le nombre d'arbres dans la forêt, mais que le score semble approcher d'un plafond.
+
+\section{Analyse du classificateur SVM}
+Pour le classificateur SVM, nous étions curieux de voir quel rôle joue le noyau dans sa performance.
+Il s'avère que le noyau change tout, une fois le bon trouvé.
+Dans notre cas, le noyau linéaire est de loin supérieur à tous les autres.
+
+\section{Analyse du perceptron}
+Nos tests du perceptron montrent qu'il est plutôt efficace pour la tâche de désambiguïsation de sens.
+Il aurait été bien de testé des tailles de couche cachée encore plus petites puisque ses performances sont presqu'identiques entre 175 et 225, mais le temps d'entraînement est beaucoup plus long.
+Il aurait aussi été intéressant de voir s'il nous était possible de forcer le surentraînement.
+
+\vspace{3em}
+\newpage % force la même page
+\chapter{Conclusion}
+D'après nos résultats, sans prétraitement de données particulier, la fenêtre de contexte optimale est de deux mots de chaque côté de \textit{interest} et le classificateur offrant la meilleure performance dans le délai le plus court est le classificateur SVM avec un noyau linéaire. cf. \hyperref[fig:bilanwindow]{Bilan 1}
+\hyperref[fig:bilanparams]{Bilan 2}.
+
+Dans ce TP, les mots de contextes que nous donnions aux classificateurs étaient sous la forme de sacs de mots.
+Ceci veut dire que nous perdions l'ordre des mots qui pouvait nous informer sur la sémantique.
+Notre hypothèse est que c'est cette perte de sémantique qui menait à une diminution des performances avec une fenêtres plus large.
+Ainsi, nous proposons de donner aux classificateurs l'ordres des mots leur permettant potentiellement d'apprendre davantage avec des fenêtres plus grandes.
+
+\newpage
+
+\renewcommand\thesection{\Alph{section}}
+\renewcommand\thesubsection{\thesection.\Alph{subsection}}
+\begin{appendices}
+	\clearpage
+		
+		
+	\section{Utilisation des scripts}
+	Notre TP est réalisé en huit fichiers.
+	\begin{itemize}
+		\item \texttt{main.py} -- le script principal qui lance tous les tests ;
+		\item  \texttt{forest.py}, \texttt{naive.py}, \texttt{perceptron.py}, \texttt{svm.py}, \texttt{tree.py} -- des «wrappers» pour les différents classificateurs ;
+		\item \texttt{tests.py} -- les fonctions de test des classificateurs ;
+		\item \texttt{betterer\_extract.py} -- troisième itération du script de prétraitement des données.
+	\end{itemize}
+		
+	Pour lancer les tests, il suffit d'\hyperref[fig:exec]{exécuter \texttt{main.py}}.
+	\section{Exemple d'exécution du programme}
+	
+	\begin{figure}[ht]
+		\centering
+		\caption{Commande pour exécuter le programme.\protect\footnotemark}
+		\adjincludegraphics[scale=0.65, trim={0 {.925\height} 0 0},clip]{assets/logs/export/log3.html-0.pdf}
+				
+		\label{fig:exec}
+	\end{figure}
+	 
+	\footnotetext{\texttt{time} est une commande du shell qui permet d'afficher le temps total d'exécution lorsque que le programme termine, lancer \texttt{python main.py} suffit pour exécuter le programme.}
+	
+	 
+	\begin{figure}[ht]
+		\centering
+		\caption{Tests avec une taille de fenêtre = 1}
+		\adjincludegraphics[scale=0.65, trim={0 {.15\height} 0 0},clip]{assets/logs/export/log3.html-1.pdf}
+				
+		\label{fig:window1}
+	\end{figure}
+		   
+	\begin{figure}[ht]
+		\centering
+		\caption{Tests avec une taille de fenêtre = 2}
+		\adjincludegraphics[scale=0.65, trim={0 {.225\height} 0 0},clip]{assets/logs/export/log3.html-2.pdf}
+				
+		\label{fig:window2}
+	\end{figure}
+		   
+	\begin{figure}[ht]
+		\centering
+		\caption{Tests avec une taille de fenêtre = 5}
+		\adjincludegraphics[scale=0.65, trim={0 {.225\height} 0 0},clip]{assets/logs/export/log3.html-3.pdf}
+				
+		\label{fig:window5}
+	\end{figure}
+		
+	\begin{figure}[ht]
+		\centering
+		\caption{Bilan des tests sur les tailles de fenêtre}
+		\adjincludegraphics[scale=0.65, trim={0 {.89\height} 0 0},clip]{assets/logs/export/log3.html-4.pdf}
+				
+		\label{fig:bilanwindow}
+	\end{figure}
+	\begin{figure}[ht]
+		\centering
+		\caption{Tests en faisant varier les paramètres - Naive}
+		\adjincludegraphics[scale=0.65, trim={0 {.925\height} 0 0},clip]{assets/logs/export/log3.html-5.pdf}
+				
+		\label{fig:paramsNaive}
+	\end{figure}
+	\begin{figure}[ht]
+		\centering
+		\caption{Tests en faisant varier les paramètres - Tree}
+		\adjincludegraphics[scale=0.65, trim={0 {.45\height} 0 0},clip]{assets/logs/export/log3.html-6.pdf}
+				
+		\label{fig:paramsTree}
+	\end{figure}
+	\begin{figure}[ht]
+		\centering
+		\caption{Tests en faisant varier les paramètres - Forest}
+		\adjincludegraphics[scale=0.65, trim={0 {.45\height} 0 0},clip]{assets/logs/export/log3.html-7.pdf}
+				
+		\label{fig:paramsForest}
+	\end{figure}
+	\begin{figure}[ht]
+		\centering
+		\caption{Tests en faisant varier les paramètres - Svm}
+		\adjincludegraphics[scale=0.65, trim={0 {.7\height} 0 0},clip]{assets/logs/export/log3.html-8.pdf}
+				
+		\label{fig:paramsSvm}
+	\end{figure}
+	\begin{figure}[ht]
+		\centering
+		\caption{Tests en faisant varier les paramètres - Perceptron}
+		\adjincludegraphics[scale=0.65, trim={0 {.2\height} 0 0},clip]{assets/logs/export/log3.html-9.pdf}
+				
+		\label{fig:paramsPerceptron}
+	\end{figure}
+	\begin{figure}[ht]
+		\centering
+		\caption{Bilan des tests sur les variations de paramètres}
+		\adjincludegraphics[scale=0.65, trim={0 {.92\height} 0 0},clip]{assets/logs/export/log3.html-10.pdf}
+				
+		\label{fig:bilanparams}
+	\end{figure}
+	\begin{figure}[ht]
+		\centering
+		\caption{Temps total d'exécution}
+		\adjincludegraphics[scale=0.65, trim={0 {.8\height} 0 0},clip]{assets/logs/export/log3.html-11.pdf}
+				
+		\label{fig:time}
+	\end{figure}
+\end{appendices}
 \end{document}

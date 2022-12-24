@@ -32,12 +32,12 @@
 		\end{varwidth}}
 		\vskip 40\p@ }}
 
-\def\@maketitle{\newpage \null \vskip 2em \begin{center}%
+\def\@maketitle{\newpage \null \vspace*{\fill} \begin{center}%
 	\let \footnote \thanks
 	{\normalfont \LARGE \bfseries \@title \par}%
 	\vskip 1.5em%
 	{\large \bfseries \lineskip .5em \begin{tabular}[t]{c} \@author \end{tabular}\par}%
-	\vskip 1em {\large \@date}%
+	\vskip 1em {\large \@date}\vspace*{\fill}%
 
   \end{center} \par \vskip 1.5em}
 
@@ -56,3 +56,13 @@
 \makeatletter
 \patchcmd{\chapter}{\if@openright\cleardoublepage\else\clearpage\fi}{}{}{}
 \makeatother
+
+\usepackage[toc,page]{appendix}
+
+\usepackage{blindtext}
+\renewcommand{\appendixtocname}{Annexes}
+\renewcommand{\appendixpagename}{\vspace*{\fill}\centering Annexes\vspace*{\fill}}
+
+\usepackage{adjustbox}
+\usepackage{hyperref}
+
