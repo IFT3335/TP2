@@ -288,22 +288,22 @@ Notons cependant que le perceptron demande beaucoup plus de ressources calculato
 \section{Analyse de l'arbre de décision}
 Par défaut, sur notre corpus de données, l'arbre calculé avait une profondeur de 40.
 Nous avons voulu observer ce qu'il se passerait si nous limitions sa profondeur maximum à des valeurs inférieures.
-Un balayage quasi-logarithmique nous montre que le bénéfice d'avoir un arbre profond diminue plutôt rapidement puisque la différence de score entre 40 et 20 est bien moins grande qu'entre 20 et 5.
+Un balayage quasi-logarithmique dans le talbeau \ref{tab:arbre} nous montre que le bénéfice d'avoir un arbre profond diminue plutôt rapidement puisque la différence de score entre 40 et 20 est bien moins grande qu'entre 20 et 5.
 Probablement qu'au-delà de 40 niveaux, nous aurions observé du surentraînement.
 
 \section{Analyse de la forêt aléatoire}
 Pour la forêt aléatoire, nous avons appliqué la même méthodologie que pour l'arbre de décision, mais pour le nombre d'arbres qu'elle contient seulement.
 Notre hypothèse était qu'au-delà d'un certain nombre, les gains seraient faible par rapport au temps requis pour générer la forêt.
-Nos tests ne nous contredisent pas.
+Nos tests du talbeau \ref{tab:foret} ne nous contredisent pas.
 Nous remarquons que le temps d'entraînement augmente linéairement avec le nombre d'arbres dans la forêt, mais que le score semble approcher d'un plafond.
 
 \section{Analyse du classificateur SVM}
 Pour le classificateur SVM, nous étions curieux de voir quel rôle joue le noyau dans sa performance.
 Il s'avère que le noyau change tout, une fois le bon trouvé.
-Dans notre cas, le noyau linéaire est de loin supérieur à tous les autres.
+Dans le tableau \ref{tab:svm}, le noyau linéaire est de loin supérieur à tous les autres.
 
 \section{Analyse du perceptron}
-Nos tests du perceptron montrent qu'il est plutôt efficace pour la tâche de désambiguïsation de sens.
+Nos résultats du tableau \ref{tab:perceptron} montrent que le perceptron est plutôt efficace pour la tâche de désambiguïsation de sens.
 Il aurait été bien de testé des tailles de couche cachée encore plus petites puisque ses performances sont presqu'identiques entre 175 et 225, mais le temps d'entraînement est beaucoup plus long.
 Il aurait aussi été intéressant de voir s'il nous était possible de forcer le surentraînement.
 
