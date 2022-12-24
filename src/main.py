@@ -3,7 +3,7 @@ from time import time
 from sklearn.model_selection import train_test_split
 
 from betterer_extract import *
-from tests import test_naive, tests_tree, tests_forest, tests_svm, tests_perceptron
+from tests import test_naive, tests_tree, tests_forest, test_svm, tests_perceptron
 
 
 def main():
@@ -25,8 +25,8 @@ def main():
         test_naive(xcount2_train, ycount2_train, xcount2_test, ycount2_test),
         tests_tree(xcount2_train, ycount2_train, xcount2_test, ycount2_test),
         tests_forest(xcount2_train, ycount2_train, xcount2_test, ycount2_test),
-        tests_svm(xcount2_train, ycount2_train, xcount2_test, ycount2_test, kernel='linear',
-                  decision_function_shape='ovo'),
+        test_svm(xcount2_train, ycount2_train, xcount2_test, ycount2_test, kernel='linear',
+                 decision_function_shape='ovo'),
         tests_perceptron(xcount2_train, ycount2_train, xcount2_test, ycount2_test, learning_rate="adaptive",
                          learning_rate_init=0.025, hidden_layer_sizes=(175,))
     )
@@ -50,8 +50,8 @@ def main():
         test_naive(xcount2_train, ycount2_train, xcount2_test, ycount2_test),
         tests_tree(xcount2_train, ycount2_train, xcount2_test, ycount2_test),
         tests_forest(xcount2_train, ycount2_train, xcount2_test, ycount2_test),
-        tests_svm(xcount2_train, ycount2_train, xcount2_test, ycount2_test, kernel='linear',
-                  decision_function_shape='ovo'),
+        test_svm(xcount2_train, ycount2_train, xcount2_test, ycount2_test, kernel='linear',
+                 decision_function_shape='ovo'),
         tests_perceptron(xcount2_train, ycount2_train, xcount2_test, ycount2_test, learning_rate="adaptive",
                          learning_rate_init=0.025, hidden_layer_sizes=(175,))
     )
@@ -75,8 +75,8 @@ def main():
         test_naive(xcount2_train, ycount2_train, xcount2_test, ycount2_test),
         tests_tree(xcount2_train, ycount2_train, xcount2_test, ycount2_test),
         tests_forest(xcount2_train, ycount2_train, xcount2_test, ycount2_test),
-        tests_svm(xcount2_train, ycount2_train, xcount2_test, ycount2_test, kernel='linear',
-                  decision_function_shape='ovo'),
+        test_svm(xcount2_train, ycount2_train, xcount2_test, ycount2_test, kernel='linear',
+                 decision_function_shape='ovo'),
         tests_perceptron(xcount2_train, ycount2_train, xcount2_test, ycount2_test, learning_rate="adaptive",
                          learning_rate_init=0.025, hidden_layer_sizes=(175,))
     )
@@ -111,14 +111,14 @@ def main():
         tests_forest(xcount2_train, ycount2_train, xcount2_test, ycount2_test, n_estimators=10),
         tests_forest(xcount2_train, ycount2_train, xcount2_test, ycount2_test, n_estimators=100),
         tests_forest(xcount2_train, ycount2_train, xcount2_test, ycount2_test, n_estimators=1000),
-        tests_svm(xcount2_train, ycount2_train, xcount2_test, ycount2_test, kernel='linear',
-                  decision_function_shape='ovo'),
-        tests_svm(xcount2_train, ycount2_train, xcount2_test, ycount2_test, kernel='poly',
-                  decision_function_shape='ovo'),
-        tests_svm(xcount2_train, ycount2_train, xcount2_test, ycount2_test, kernel='rbf',
-                  decision_function_shape='ovo'),
-        tests_svm(xcount2_train, ycount2_train, xcount2_test, ycount2_test, kernel='sigmoid',
-                  decision_function_shape='ovo'),
+        test_svm(xcount2_train, ycount2_train, xcount2_test, ycount2_test, kernel='linear',
+                 decision_function_shape='ovo'),
+        test_svm(xcount2_train, ycount2_train, xcount2_test, ycount2_test, kernel='poly',
+                 decision_function_shape='ovo'),
+        test_svm(xcount2_train, ycount2_train, xcount2_test, ycount2_test, kernel='rbf',
+                 decision_function_shape='ovo'),
+        test_svm(xcount2_train, ycount2_train, xcount2_test, ycount2_test, kernel='sigmoid',
+                 decision_function_shape='ovo'),
         tests_perceptron(xcount2_train, ycount2_train, xcount2_test, ycount2_test, learning_rate="adaptive",
                          learning_rate_init=0.1, hidden_layer_sizes=(125,)),
         tests_perceptron(xcount2_train, ycount2_train, xcount2_test, ycount2_test, learning_rate="adaptive",

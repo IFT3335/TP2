@@ -61,7 +61,7 @@ def tests_forest(xcount2_train, ycount2_train, xcount2_test, ycount2_test, **kwa
     return mean, "forest", kwargs
 
 
-def tests_svm(xcount2_train, ycount2_train, xcount2_test, ycount2_test, **kwargs):
+def test_svm(xcount2_train, ycount2_train, xcount2_test, ycount2_test, **kwargs):
     print(f"--- Tests Svm - paramètres : {kwargs} ---")
     start_time_i: float = time()
     svm: Svm = Svm(xcount2_train, ycount2_train, xcount2_test, ycount2_test, **kwargs)
